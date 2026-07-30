@@ -39,7 +39,6 @@ resource "aws_instance" "app" {
   associate_public_ip_address = true
 
   user_data = file("${path.module}/app-install.sh")
-
   tags = {
     Name = "app-server"
   }

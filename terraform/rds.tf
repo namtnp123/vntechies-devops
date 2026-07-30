@@ -4,14 +4,14 @@
 #   override_special = "!#$%&*()-_=+[]{}<>:?"
 # }
 
-resource "aws_db_subnet_group" "main" {
-  name       = "demo-db-subnet-group"
-  subnet_ids = [aws_subnet.public-subnet-A.id, aws_subnet.public-subnet-B.id]
+# resource "aws_db_subnet_group" "main" {
+#   name       = "demo-db-subnet-group"
+#   subnet_ids = [aws_subnet.public-subnet-A.id, aws_subnet.public-subnet-B.id]
 
-  tags = {
-    Name = "demo-db-subnet-group"
-  }
-}
+#   tags = {
+#     Name = "demo-db-subnet-group"
+#   }
+# }
 
 # resource "aws_security_group" "rds" {
 #   name        = "rds-sg"
