@@ -1,0 +1,22 @@
+repositories:
+  - name: argo
+    url: https://argoproj.github.io/argo-helm
+
+releases:
+  - name: argocd
+    namespace: argocd
+    createNamespace: true
+    chart: argo/argo-cd
+    version: "7.7.0"
+    values:
+      - argocd-values.yaml
+    hooks:
+      # Solves the chicken-and-egg problem: the Application CRD only exists after
+      # the Helm chart installs ArgoCD. This hook runs after the chart is applied.
+      - events: ["postsync"]
+        command: bash
+        args:
+          - -c
+          - >-
+            kubectl rollout status deployment/argocd-server -n argocd --timeout=180s &&
+            kubectl apply -f argocd-app.yaml

@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,14 +8,14 @@ spec:
     matchLabels:
       app: queue
   replicas: 1
-  template:
+  template: # template for the pods
     metadata:
       labels:
         app: queue
     spec:
       containers:
-        - name: queue
-          image: richardchesterwood/k8s-fleetman-queue:release2
+      - name: queue
+        image: richardchesterwood/k8s-fleetman-queue:release2
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -25,17 +26,18 @@ spec:
     matchLabels:
       app: position-simulator
   replicas: 1
-  template:
+  template: # template for the pods
     metadata:
       labels:
         app: position-simulator
     spec:
       containers:
-        - name: position-simulator
-          image: richardchesterwood/k8s-fleetman-position-simulator:release2
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: production-microservice
+      - name: position-simulator
+        image: richardchesterwood/k8s-fleetman-position-simulator:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,17 +48,17 @@ spec:
     matchLabels:
       app: position-tracker
   replicas: 1
-  template:
+  template: # template for the pods
     metadata:
       labels:
         app: position-tracker
     spec:
       containers:
-        - name: position-tracker
-          image: richardchesterwood/k8s-fleetman-position-tracker:release3
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: production-microservice
+      - name: position-tracker
+        image: richardchesterwood/k8s-fleetman-position-tracker:release3
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -67,17 +69,18 @@ spec:
     matchLabels:
       app: api-gateway
   replicas: 1
-  template:
+  template: # template for the pods
     metadata:
       labels:
         app: api-gateway
     spec:
       containers:
-        - name: api-gateway
-          image: richardchesterwood/k8s-fleetman-api-gateway:release2
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: production-microservice
+      - name: api-gateway
+        image: richardchesterwood/k8s-fleetman-api-gateway:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -88,14 +91,14 @@ spec:
     matchLabels:
       app: webapp
   replicas: 1
-  template:
+  template: # template for the pods
     metadata:
       labels:
         app: webapp
     spec:
       containers:
-        - name: webapp
-          image: richardchesterwood/k8s-fleetman-webapp-angular:release2
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: production-microservice
+      - name: webapp
+        image: richardchesterwood/k8s-fleetman-webapp-angular:release2
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production-microservice
