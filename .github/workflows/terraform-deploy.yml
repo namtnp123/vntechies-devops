@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       module:
-        description: 'Module to deploy'
+        description: "Module to deploy"
         required: true
         type: choice
         options:
@@ -40,9 +40,9 @@ jobs:
     name: Detect Modules
     runs-on: ubuntu-latest
     outputs:
-      infra_modules:  ${{ steps.set.outputs.infra_modules }}
-      has_infra:      ${{ steps.set.outputs.has_infra }}
-      deploy_argocd:  ${{ steps.set.outputs.deploy_argocd }}
+      infra_modules: ${{ steps.set.outputs.infra_modules }}
+      has_infra: ${{ steps.set.outputs.has_infra }}
+      deploy_argocd: ${{ steps.set.outputs.deploy_argocd }}
     steps:
       - name: Set phase lists
         id: set
@@ -184,7 +184,10 @@ jobs:
   apply-argocd:
     name: Apply / Dev / session-04-argocd
     runs-on: ubuntu-latest
-    needs: plan-argocd
+    needs: [detect, plan-argocd]
+    if: |
+      needs.detect.outputs.deploy_argocd == 'true' &&
+      needs.plan-argocd.result == 'success'
     environment: dev
     defaults:
       run:
@@ -206,4 +209,3 @@ jobs:
           path: terraform/session-04-argocd
       - name: Apply
         run: terraform apply -auto-approve session-04-argocd-dev.tfplan
-
