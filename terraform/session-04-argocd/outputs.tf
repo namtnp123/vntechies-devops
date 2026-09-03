@@ -4,6 +4,11 @@ output "argocd_initial_password_command" {
 }
 
 output "argocd_server_url_command" {
-  value       = "kubectl get svc argocd-server -n argocd -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'"
-  description = "Run this to get the ArgoCD server LoadBalancer URL."
+  value       = "kubectl get ingress argocd-server -n argocd -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'"
+  description = "Run this to get the ArgoCD ALB hostname (access on port 8080)."
+}
+
+output "webapp_url_command" {
+  value       = "kubectl get ingress fleetman-webapp -n default -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'"
+  description = "Run this to get the fleetman-webapp ALB hostname."
 }

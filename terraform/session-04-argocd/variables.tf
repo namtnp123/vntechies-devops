@@ -38,3 +38,9 @@ variable "github_token" {
   sensitive   = true
   description = "GitHub personal access token for private repos. Leave empty for public repos."
 }
+
+variable "aws_lb_controller_chart_version" {
+  type        = string
+  default     = "3.5.0"
+  description = "AWS Load Balancer Controller Helm chart version. See https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller"
+}

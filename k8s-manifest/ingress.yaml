@@ -1,14 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-server
-  namespace: argocd
+  name: fleetman-webapp
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    # ArgoCD runs insecure (TLS terminated at the ALB), so use HTTP backend.
     alb.ingress.kubernetes.io/backend-protocol: HTTP
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 8080}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
 spec:
   ingressClassName: alb
   rules:
@@ -18,6 +16,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: fleetman-webapp
                 port:
                   number: 80

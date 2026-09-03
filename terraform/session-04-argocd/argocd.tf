@@ -13,10 +13,9 @@ resource "helm_release" "argocd" {
   values = [
     yamlencode({
       server = {
-        # LoadBalancer exposes the ArgoCD UI externally via an AWS LB.
-        # Get the URL after apply: kubectl get svc argocd-server -n argocd
-        service = { type = "LoadBalancer" }
-        # Disable server-side TLS — terminate at the LB instead
+        # ClusterIP — external access is handled by the ALB Ingress in argocd-ingress.yaml.
+        service = { type = "ClusterIP" }
+        # Disable server-side TLS so the ALB HTTP backend works without redirect loops.
         extraArgs = ["--insecure"]
       }
       configs = {
