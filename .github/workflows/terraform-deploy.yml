@@ -140,17 +140,13 @@ jobs:
         run: terraform apply -auto-approve ${{ matrix.module }}-dev.tfplan
 
   # ──────────────────────────────────────────────────────────────
-  # Phase 2 — Plan ArgoCD (after infra is applied or skipped)
-  # EKS cluster now exists → Helm/K8s providers initialize cleanly
+  # Phase 2 — Plan ArgoCD (independent — user controls deploy order)
   # ──────────────────────────────────────────────────────────────
   plan-argocd:
     name: Plan / Dev / session-04-argocd
     runs-on: ubuntu-latest
-    needs: [detect, apply-infra]
-    if: |
-      always() &&
-      needs.detect.outputs.deploy_argocd == 'true' &&
-      (needs.apply-infra.result == 'success' || needs.apply-infra.result == 'skipped')
+    needs: detect
+    if: needs.detect.outputs.deploy_argocd == 'true'
     environment: dev
     defaults:
       run:

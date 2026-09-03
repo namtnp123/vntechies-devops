@@ -17,7 +17,7 @@ variable "k8s_version" {
 
 variable "node_instance_types" {
   type        = list(string)
-  default     = ["t3.small", "t3.medium", "t3a.small", "t3a.medium"]
+  default     = ["t3.medium", "t3a.medium"]
   description = "Ordered list of instance types for the Spot node group. Multiple types improve Spot availability."
 }
 

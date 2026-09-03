@@ -1,0 +1,14 @@
+clusterName: dev-eks
+region: ap-southeast-1
+
+# Get your VPC ID with:
+#   aws eks describe-cluster --name dev-eks --region ap-southeast-1 \
+#     --query 'cluster.resourcesVpcConfig.vpcId' --output text
+vpcId: ""   # <-- REQUIRED: fill in before running helmfile sync
+
+serviceAccount:
+  create: true
+  name: aws-load-balancer-controller
+  # Pod Identity association is managed by Terraform (session-03-eks/pod-identity.tf).
+  # No annotations needed — the EKS Pod Identity agent injects credentials automatically.
+  # Role ARN: terraform -chdir=terraform/session-03-eks output aws_lb_controller_role_arn

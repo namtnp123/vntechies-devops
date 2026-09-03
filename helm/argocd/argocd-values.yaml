@@ -1,6 +1,7 @@
 server:
+  # ClusterIP — external traffic comes through the ALB Ingress, not a LoadBalancer service.
   service:
-    type: LoadBalancer
+    type: ClusterIP
   extraArgs:
     - --insecure
 configs:
