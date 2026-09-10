@@ -46,6 +46,8 @@ resource "aws_subnet" "private" {
     # Required for AWS Load Balancer Controller to provision internal ALBs/NLBs
     "kubernetes.io/role/internal-elb"             = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    # Karpenter discovers subnets for node placement via this tag
+    "karpenter.sh/discovery"                      = local.cluster_name
   })
 }
 

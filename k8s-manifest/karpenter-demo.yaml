@@ -1,0 +1,34 @@
+# ── Karpenter Demo: Inflate Deployment ───────────────────────────────────────
+# Uses the tiny "pause" image (0 CPU/RAM actually consumed) but declares
+# resource *requests*, so Kubernetes must find real node capacity to schedule it.
+# This triggers Karpenter to provision nodes without wasting actual compute.
+#
+# Demo flow:
+#   kubectl scale deployment inflate --replicas=5   → scale-out
+#   kubectl scale deployment inflate --replicas=0   → scale-in / consolidation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate
+  namespace: default
+  labels:
+    demo: karpenter
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: inflate
+  template:
+    metadata:
+      labels:
+        app: inflate
+    spec:
+      # Instant termination — makes scale-in demo snappy, no grace period noise.
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: inflate
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.7
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1.5Gi

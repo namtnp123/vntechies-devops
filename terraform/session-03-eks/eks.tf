@@ -28,26 +28,38 @@ resource "aws_eks_cluster" "main" {
   depends_on = [aws_iam_role_policy_attachment.eks_cluster_policy]
 }
 
-# ── Managed Node Group (private subnets only) ─────────────────────────────────
+# ── System Node Group (private subnets only) ──────────────────────────────────
+# Kept small and dedicated to system components only (Karpenter, CoreDNS, etc.).
+# Application workloads land on Karpenter-launched nodes instead.
 
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
-  node_group_name = "${var.env}-node-group"
+  node_group_name = "${var.env}-system-node-group"
   node_role_arn   = aws_iam_role.eks_node_group.arn
 
   # Nodes go into private subnets — no direct internet exposure
   subnet_ids = [for s in aws_subnet.private : s.id]
 
-  instance_types = var.node_instance_types
-  capacity_type  = "SPOT"
-  # AL2023 is the current-gen EKS-optimised AMI required for Kubernetes 1.30+.
-  # AL2 (the implicit default) does not have supported images for 1.30+.
-  ami_type = "AL2023_x86_64_STANDARD"
+  instance_types = ["t3.medium"]
+  capacity_type  = "ON_DEMAND"
+  ami_type       = "AL2023_x86_64_STANDARD"
+
+  labels = {
+    "node.kubernetes.io/purpose" = "system"
+  }
+
+  # CriticalAddonsOnly taint keeps application pods off these nodes.
+  # System add-ons (CoreDNS, kube-proxy, Karpenter) tolerate this taint.
+  # taint {
+  #   key    = "CriticalAddonsOnly"
+  #   value  = "true"
+  #   effect = "NO_SCHEDULE"
+  # }
 
   scaling_config {
-    desired_size = var.node_desired_size
-    min_size     = var.node_min_size
-    max_size     = var.node_max_size
+    desired_size = 2
+    min_size     = 1
+    max_size     = 2
   }
 
   update_config {
@@ -55,7 +67,7 @@ resource "aws_eks_node_group" "main" {
   }
 
   tags = merge(local.common_tags, {
-    Name = "${var.env}-node-group"
+    Name = "${var.env}-system-node-group"
   })
 
   depends_on = [

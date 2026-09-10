@@ -45,6 +45,18 @@ resource "aws_eks_pod_identity_association" "ebs_csi_driver" {
   depends_on = [aws_eks_addon.pod_identity_agent]
 }
 
+# ── EKS Pod Identity for Karpenter Controller ────────────────────────────────
+
+resource "aws_eks_pod_identity_association" "karpenter" {
+  cluster_name    = aws_eks_cluster.main.name
+  namespace       = "kube-system"
+  service_account = "karpenter"
+  role_arn        = aws_iam_role.karpenter.arn
+
+  tags       = local.common_tags
+  depends_on = [aws_eks_addon.pod_identity_agent]
+}
+
 # ── EKS Pod Identity for AWS Load Balancer Controller ────────────────────────
 
 resource "aws_iam_role" "aws_lb_controller" {
