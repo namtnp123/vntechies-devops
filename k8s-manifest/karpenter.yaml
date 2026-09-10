@@ -53,8 +53,8 @@ spec:
           values: ["2"]
   # Hard ceiling to avoid runaway scaling costs.
   limits:
-    cpu: "16"
-    memory: 64Gi
+    cpu: "8"
+    memory: 16Gi
   disruption:
     # Consolidate idle or underutilised nodes automatically.
     consolidationPolicy: WhenEmptyOrUnderutilized

@@ -27,5 +27,5 @@ metadata:
   name: default
 spec:
   limits:
-    cpu: "8"
-    memory: 16Gi
+    cpu: "2"
+    memory: 4Gi

@@ -34,9 +34,6 @@ resource "helm_release" "karpenter" {
         }
       }
       # Run Karpenter itself on the system node group, not on Karpenter-launched nodes.
-      tolerations = [
-        { key = "CriticalAddonsOnly", operator = "Exists" }
-      ]
       nodeSelector = {
         "node.kubernetes.io/purpose" = "system"
       }

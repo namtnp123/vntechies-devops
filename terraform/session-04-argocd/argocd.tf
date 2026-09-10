@@ -63,7 +63,7 @@ resource "kubectl_manifest" "argocd_app" {
       source = {
         repoURL        = var.github_repo_url
         targetRevision = var.github_branch
-        path           = var.argocd_app_path
+        path           = var.karpenter_app_path
       }
       destination = {
         server    = "https://kubernetes.default.svc"

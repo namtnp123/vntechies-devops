@@ -50,3 +50,15 @@ variable "karpenter_chart_version" {
   default     = "1.14.1"
   description = "Karpenter Helm chart version. See https://gallery.ecr.aws/karpenter/karpenter"
 }
+
+variable "karpenter_overlay_env" {
+  type        = string
+  default     = "dev"
+  description = "Karpenter overlay environment: dev or prod. Controls which overlay ArgoCD syncs."
+}
+
+variable "karpenter_app_path" {
+  type        = string
+  default     = "k8s-manifest/karpenter/overlays/dev"
+  description = "Path to the Karpenter overlay that ArgoCD syncs. Varies by environment."
+}
