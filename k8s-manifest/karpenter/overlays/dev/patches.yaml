@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate
+spec:
+  replicas: 2
+---
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  role: dev-eks-karpenter-node
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: dev-eks
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: dev-eks
+  tags:
+    managed_by: karpenter
+    env: dev
+---
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: default
+spec:
+  limits:
+    cpu: "8"
+    memory: 16Gi
