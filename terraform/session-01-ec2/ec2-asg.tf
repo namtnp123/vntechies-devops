@@ -27,7 +27,7 @@ resource "aws_launch_template" "app" {
   user_data = base64encode(<<-EOF
     #!/bin/bash
     yum update -y
-    yum install -y nginx
+    yum install -y ngin
     systemctl enable nginx
     systemctl start nginx
 
