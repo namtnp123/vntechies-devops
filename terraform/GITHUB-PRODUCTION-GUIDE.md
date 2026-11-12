@@ -114,7 +114,7 @@ These are the commands you'll actually use day to day on a team. Each subsection
 
 ```bash
 # Identity — must match your GitHub account email
-git config --global user.name  "Your Name"
+git config --global user.name  "Tran Nam"
 git config --global user.email "you@example.com"
 
 # Sensible defaults
