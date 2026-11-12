@@ -37,8 +37,8 @@ variable "node_max_size" {
 }
 
 variable "cluster_admin_arns" {
-  type        = list(string)
-  default     = [
+  type = list(string)
+  default = [
     "arn:aws:iam::528757789708:user/trannam",
     "arn:aws:iam::528757789708:user/terraform"
   ]

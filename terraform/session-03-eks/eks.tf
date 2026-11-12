@@ -103,8 +103,8 @@ resource "aws_eks_addon" "kube_proxy" {
 
 # EBS CSI driver — required to provision EBS-backed PersistentVolumes (e.g. MongoDB storage)
 resource "aws_eks_addon" "ebs_csi_driver" {
-  cluster_name             = aws_eks_cluster.main.name
-  addon_name               = "aws-ebs-csi-driver"
+  cluster_name                = aws_eks_cluster.main.name
+  addon_name                  = "aws-ebs-csi-driver"
   resolve_conflicts_on_create = "OVERWRITE"
 
   tags = local.common_tags

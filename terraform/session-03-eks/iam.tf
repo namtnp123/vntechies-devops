@@ -137,21 +137,21 @@ resource "aws_iam_policy" "aws_lb_controller" {
         Resource = "*"
       },
       {
-        Effect    = "Allow"
-        Action    = ["ec2:CreateTags"]
-        Resource  = "arn:aws:ec2:*:*:security-group/*"
+        Effect   = "Allow"
+        Action   = ["ec2:CreateTags"]
+        Resource = "arn:aws:ec2:*:*:security-group/*"
         Condition = {
           StringEquals = { "ec2:CreateAction" = "CreateSecurityGroup" }
           Null         = { "aws:RequestedRegion" = "false" }
         }
       },
       {
-        Effect    = "Allow"
-        Action    = ["ec2:CreateTags", "ec2:DeleteTags"]
-        Resource  = "arn:aws:ec2:*:*:security-group/*"
+        Effect   = "Allow"
+        Action   = ["ec2:CreateTags", "ec2:DeleteTags"]
+        Resource = "arn:aws:ec2:*:*:security-group/*"
         Condition = {
           Null = {
-            "aws:RequestedRegion"        = "false"
+            "aws:RequestedRegion"                   = "false"
             "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
           }
         }
@@ -202,7 +202,7 @@ resource "aws_iam_policy" "aws_lb_controller" {
         ]
         Condition = {
           Null = {
-            "aws:RequestedRegion"                    = "false"
+            "aws:RequestedRegion"                   = "false"
             "aws:ResourceTag/elbv2.k8s.aws/cluster" = "true"
           }
         }
@@ -239,8 +239,8 @@ resource "aws_iam_policy" "aws_lb_controller" {
         }
       },
       {
-        Effect    = "Allow"
-        Action    = ["elasticloadbalancing:AddTags"]
+        Effect = "Allow"
+        Action = ["elasticloadbalancing:AddTags"]
         Resource = [
           "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
           "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",

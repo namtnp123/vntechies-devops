@@ -1,4 +1,4 @@
-env                 = "dev"
+env = "dev"
 # The CI/CD IAM identity that runs session-04-argocd must be here so the
 # Helm provider can authenticate to the cluster. Run:
 #   aws sts get-caller-identity --query Arn --output text

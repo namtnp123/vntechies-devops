@@ -87,9 +87,9 @@ resource "aws_iam_policy" "karpenter" {
         Resource = aws_sqs_queue.karpenter_interruption.arn
       },
       {
-        Sid    = "SpotPricing"
-        Effect = "Allow"
-        Action = ["pricing:GetProducts"]
+        Sid      = "SpotPricing"
+        Effect   = "Allow"
+        Action   = ["pricing:GetProducts"]
         Resource = "*"
       },
     ]

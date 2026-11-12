@@ -1,4 +1,4 @@
-env                 = "prod"
+env = "prod"
 # cluster_admin_arns = ["arn:aws:iam::ACCOUNT_ID:user/your-iam-user"]
 k8s_version         = "1.36"
 node_instance_types = ["t3.medium", "t3.large", "t3a.medium", "t3a.large"]

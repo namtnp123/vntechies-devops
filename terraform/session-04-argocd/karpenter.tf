@@ -5,8 +5,8 @@
 
 locals {
   # Derive these from the cluster name so no extra variables are needed.
-  karpenter_node_role_name        = "${data.aws_eks_cluster.main.name}-karpenter-node"
-  karpenter_interruption_queue    = "${data.aws_eks_cluster.main.name}-karpenter"
+  karpenter_node_role_name     = "${data.aws_eks_cluster.main.name}-karpenter-node"
+  karpenter_interruption_queue = "${data.aws_eks_cluster.main.name}-karpenter"
 }
 
 resource "helm_release" "karpenter" {
@@ -30,7 +30,7 @@ resource "helm_release" "karpenter" {
       controller = {
         resources = {
           requests = { cpu = "100m", memory = "256Mi" }
-          limits   = { cpu = "1",    memory = "1Gi"   }
+          limits   = { cpu = "1", memory = "1Gi" }
         }
       }
       # Run Karpenter itself on the system node group, not on Karpenter-launched nodes.

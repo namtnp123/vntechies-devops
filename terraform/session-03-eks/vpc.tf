@@ -47,7 +47,7 @@ resource "aws_subnet" "private" {
     "kubernetes.io/role/internal-elb"             = "1"
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     # Karpenter discovers subnets for node placement via this tag
-    "karpenter.sh/discovery"                      = local.cluster_name
+    "karpenter.sh/discovery" = local.cluster_name
   })
 }
 
