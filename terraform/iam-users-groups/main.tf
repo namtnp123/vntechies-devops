@@ -14,7 +14,15 @@ resource "aws_iam_user" "user1" {
   }
 }
 
-
+resource "aws_iam_user" "user2" {
+  name = "user2"
+  tags = {
+    Name = "user2"
+    Manager = "trannam"
+    Team = "devops"
+    Office = "Hanoi"
+  }
+}
 
 # resource "aws_iam_group" "this" {
 #   for_each = var.groups
