@@ -1,0 +1,22 @@
+# toi muon chay 1 job helloword mỗi khi tôi push code liên quan đến terraform 
+# tôi muốn thêm cả khả năng chạy bằng tay
+name: Demo Workflow
+
+on:
+  push:
+    paths:
+      - "terraform/**"
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Name to greet"
+        required: true
+        type: string
+        default: "Nam Tran"
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello ${{ github.event.inputs.name }}
+        run: echo "Hello ${{ github.event.inputs.name }}"
