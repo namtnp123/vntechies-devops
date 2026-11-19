@@ -1,22 +1,43 @@
-# toi muon chay 1 job helloword mỗi khi tôi push code liên quan đến terraform 
+# toi muon chay 1 job helloword mỗi khi tôi push code liên quan đến terraform
 # tôi muốn thêm cả khả năng chạy bằng tay
 name: Demo Workflow
 
 on:
-  push:
-    paths:
-      - "terraform/**"
-  workflow_dispatch:
-    inputs:
-      name:
-        description: "Name to greet"
-        required: true
-        type: string
-        default: "Nam Tran"
+    push:
+        paths:
+            - "terraform/**"
+            - ".github/workflows/demo.yml"
+    workflow_dispatch:
+        inputs:
+            name:
+                description: "Name to greet"
+                required: true
+                type: string
+                default: "Nam Tran"
+concurrency:
+    group: terraform-deploy
+    cancel-in-progress: false
+env:
+    AWS_REGION: "ap-southeast-1"
+    AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+    AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}" # Sử dụng secret AWS_SECRET_ACCESS_KEY từ GitHub Secrets
 
 jobs:
-  hello:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Hello ${{ github.event.inputs.name }}
-        run: echo "Hello ${{ github.event.inputs.name }}"
+    terraform-apply-session01:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: terraform/session-01-ec2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                  terraform_version: "1.5.0"
+            - name: Init Terraform
+              run: terraform init -backend-config=environments/dev/dev.tfbackend -reconfigure
+            - name: Plan Terraform
+              run: terraform plan -var-file=environments/dev/dev.tfvars
+            - name: Apply Terraform
+              run: terraform apply -var-file=environments/dev/dev.tfvars -auto-approve
